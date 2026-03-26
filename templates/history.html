@@ -17,17 +17,18 @@
                 <th>Timestamp</th>
             </tr>
         </thead>
-    </table>
-    <tbody>
-        {% for transaction in transactions %}
-            <tr>
-                <td>{{transaction.type }}</td>
-                <td>{{transaction.symbol }}</td>
-                <td>{{transaction.shares }}</td>
-                <td>{{ (transaction.price) | usd }}</td>
-                <td>{{ (transaction.price * transaction.shares) | usd }}</td>
-                <td>{{transaction.timestamp }}</td>
-            </tr>
+
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{transaction.type }}</td>
+                    <td>{{transaction.symbol }}</td>
+                    <td>{{transaction.shares }}</td>
+                    <td>{{ (transaction.price) | usd }}</td>
+                    <td>{{ (transaction.price * transaction.shares) | usd }}</td>
+                    <td>{{transaction.timestamp }}</td>
+                </tr>
         {% endfor %}
-    </tbody>
+        </tbody>
+    </table>
 {% endblock %}
