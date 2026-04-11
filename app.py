@@ -276,3 +276,7 @@ def sell():
         return apology("Symbol not found")
     else:
         return render_template("sell.html", stocks=stocks)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

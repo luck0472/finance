@@ -5,38 +5,53 @@
 {% endblock %}
 
 {% block main %}
-    <h2>Portfolio</h2>
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Your Portfolio</h1>
+        </div>
+    </div>
 
-    <table class="table table-bordered table-striped">
-        <thead class="thead-light">
-            <tr>
-                <th>Symbol</th>
-                <th>Name</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>Total Value</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for stock in stocks %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
                 <tr>
-                    <td>{{ stock.symbol }}</td>
-                    <td>{{ stock.name }}</td>
-                    <td>{{ stock.total_shares }}</td>
-                    <td>{{ stock.price | usd }}</td>
-                    <td>{{ stock.value | usd }}</td>
+                    <th>Symbol</th>
+                    <th>Company Name</th>
+                    <th class="text-center">Shares</th>
+                    <th class="text-end">Price</th>
+                    <th class="text-end">Total Value</th>
                 </tr>
-            {% endfor %}
+            </thead>
 
-            <tr>
-                <td colspan="4" align="right">Cash</td>
-                <td>{{ cash }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" align="right">Total value</td>
-                <td>{{ total_value }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <tbody>
+                {% for stock in stocks %}
+                    <tr>
+                        <td><strong>{{ stock.symbol }}</strong></td>
+                        <td>{{ stock.name }}</td>
+                        <td class="text-center">{{ stock.total_shares }}</td>
+                        <td class="text-end">{{ stock.price | usd }}</td>
+                        <td class="text-end"><strong>{{ stock.value | usd }}</strong></td>
+                    </tr>
+                {% endfor %}
+
+                <tr class="table-light fw-bold" style="border-top: 2px solid #dee2e6;">
+                    <td colspan="4" class="text-end">Cash Balance:</td>
+                    <td class="text-end">{{ cash }}</td>
+                </tr>
+                <tr class="table-info fw-bold">
+                    <td colspan="4" class="text-end">Total Portfolio Value:</td>
+                    <td class="text-end"><span style="color: #2e944b; font-size: 1.1em;">{{ total_value }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <a class="btn btn-primary w-100" href="/buy">Buy Stocks</a>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-secondary w-100" href="/sell">Sell Stocks</a>
+        </div>
+    </div>
 {% endblock %}

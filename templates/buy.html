@@ -5,12 +5,31 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Buy</h1>
-    <form action="{{ url_for('buy') }}" method="post">
-        <input type="text" name="symbol" id="symbol" autofocus placeholder="Symbol">
-        <br>
-        <input type="text" name="shares" id="shares" placeholder="Shares">
-        <br>
-        <button type="submit">Buy</button>
-    </form>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0">
+                <div class="card-header">
+                    <h2 class="mb-0" style="border: none; padding: 0;">Buy Stocks</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('buy') }}" method="post">
+                        <div class="mb-3">
+                            <label for="symbol" class="form-label">Stock Symbol</label>
+                            <input type="text" class="form-control" id="symbol" name="symbol" autofocus placeholder="e.g., AAPL" required>
+                            <small class="form-text text-muted">Enter the stock ticker symbol</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="shares" class="form-label">Number of Shares</label>
+                            <input type="number" class="form-control" id="shares" name="shares" placeholder="e.g., 10" min="1" required>
+                            <small class="form-text text-muted">Must be a positive integer</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2">Get Quote & Buy</button>
+                    </form>
+                    <div class="mt-3">
+                        <a href="/" class="btn btn-outline-secondary w-100">Back to Portfolio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

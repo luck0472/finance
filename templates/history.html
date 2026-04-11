@@ -5,30 +5,40 @@
 {% endblock %}
 
 {% block main %}
-    <h1>History</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Type</th>
-                <th>Symbol</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Transaction History</h1>
+        </div>
+    </div>
 
-        <tbody>
-            {% for transaction in transactions %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
                 <tr>
-                    <td>{{transaction.type }}</td>
-                    <td>{{transaction.symbol }}</td>
-                    <td>{{transaction.shares }}</td>
-                    <td>{{ (transaction.price) | usd }}</td>
-                    <td>{{ (transaction.price * transaction.shares) | usd }}</td>
-                    <td>{{transaction.timestamp }}</td>
+                    <th>Type</th>
+                    <th>Symbol</th>
+                    <th class="text-center">Shares</th>
+                    <th class="text-end">Price per Share</th>
+                    <th class="text-end">Total Value</th>
+                    <th>Timestamp</th>
                 </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                    <tr class="{% if transaction.shares > 0 %}table-success{% else %}table-danger{% endif %}">
+                        <td><strong>{% if transaction.shares > 0 %}BUY{% else %}SELL{% endif %}</strong></td>
+                        <td><strong>{{ transaction.symbol }}</strong></td>
+                        <td class="text-center">{{ transaction.shares }}</td>
+                        <td class="text-end">{{ transaction.price | usd }}</td>
+                        <td class="text-end"><strong>{{ (transaction.price * transaction.shares) | usd }}</strong></td>
+                        <td><small class="text-muted">{{ transaction.timestamp }}</small></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        <a href="/" class="btn btn-primary">Back to Portfolio</a>
+    </div>
 {% endblock %}

@@ -5,7 +5,17 @@
 {% endblock %}
 
 {% block main %}
-    <!-- https://memegen.link/ -->
-    <!-- https://knowyourmeme.com/memes/grumpy-cat -->
-    <img alt="{{ top }}" class="border img-fluid" src="https://api.memegen.link/images/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?background=https://i.imgur.com/CsCgN7Ll.png&width=400" title="{{ top }}">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0">
+                <div class="card-body text-center p-5">
+                    <!-- https://memegen.link/ -->
+                    <!-- https://knowyourmeme.com/memes/grumpy-cat -->
+                    <img alt="{{ top }}" class="img-fluid rounded mb-4" src="https://api.memegen.link/images/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?background=https://i.imgur.com/CsCgN7Ll.png&width=400" style="max-width: 400px;" title="{{ top }}">
+                    <p class="text-muted mt-4">Something went wrong. Please try again.</p>
+                    <a href="/" class="btn btn-primary mt-3">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

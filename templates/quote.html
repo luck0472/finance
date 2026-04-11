@@ -5,13 +5,37 @@
 {% endblock %}
 
 {% block main %}
-    <h2>Get a stock quote</h2>
-    <form action="{{ url_for('quote') }}" method="post">
-        <input type="text" name="symbol" autofocus placeholder="Symbol">
-        <button type="submit">Get Quote</button>
-    </form>
-    {% if quote %}
-        <h3>{{ quote["name"] }} ({{ quote["symbol" ]}})</h3>
-        <p>Price: {{ quote["price"] |usd }}</p>
-    {% endif %}
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0">
+                <div class="card-header">
+                    <h2 class="mb-0" style="border: none; padding: 0;">Stock Quote</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('quote') }}" method="post">
+                        <div class="mb-3">
+                            <label for="symbol" class="form-label">Stock Symbol</label>
+                            <input type="text" class="form-control" id="symbol" name="symbol" autofocus placeholder="e.g., AAPL, GOOGL" required>
+                            <small class="form-text text-muted">Enter a valid stock ticker symbol</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2">Get Quote</button>
+                    </form>
+                </div>
+            </div>
+
+            {% if quote %}
+                <div class="card border-0 mt-4">
+                    <div class="card-header" style="background: linear-gradient(135deg, #2e944b 0%, #247838 100%);">
+                        <h3 class="mb-0" style="border: none; padding: 0;">{{ quote["name"] }}</h3>
+                        <small style="color: rgba(255,255,255,0.8);">{{ quote["symbol"] }}</small>
+                    </div>
+                    <div class="card-body text-center">
+                        <h1 style="color: #2e944b; margin: 1rem 0;">{{ quote["price"] | usd }}</h1>
+                        <p class="text-muted">Current Stock Price</p>
+                        <a href="/buy" class="btn btn-primary mt-3">Buy This Stock</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
