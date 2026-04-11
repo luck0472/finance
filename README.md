@@ -38,6 +38,7 @@ Current requirements:
 - Flask-Session
 - pytz
 - requests
+- gunicorn
 
 ## Environment Variable
 
@@ -107,9 +108,11 @@ finance/
 ## Deploy on Render
 
 1. Push this repository to GitHub.
-2. In Render, click New +, then Web Service.
-3. Connect your GitHub repo and choose this project.
-4. Use these settings:
+2. In Render, click New +, then Blueprint.
+3. Connect your GitHub repo and select this project.
+4. Render will read the deployment config from render.yaml.
+
+If you prefer manual setup, use these settings:
 
 - Runtime: Python 3
 - Build Command: pip install -r requirements.txt
@@ -119,6 +122,7 @@ finance/
 
 - API_KEY = your_stock_api_key
 - SECRET_KEY = a_long_random_secret
+- DATA_DIR = /var/data
 
 6. Click Create Web Service and wait for first deploy.
 

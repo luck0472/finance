@@ -9,6 +9,14 @@ from helpers import apology, login_required, lookup, usd
 
 # Configure application
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-me")
+
+# Render persistent disk path example: /var/data
+data_dir = os.environ.get("DATA_DIR", os.path.abspath("."))
+os.makedirs(data_dir, exist_ok=True)
+session_dir = os.path.join(data_dir, "flask_session")
+os.makedirs(session_dir, exist_ok=True)
+db_path = os.path.join(data_dir, "finance.db")
 
 # Custom filter
 app.jinja_env.filters["usd"] = usd
@@ -16,10 +24,11 @@ app.jinja_env.filters["usd"] = usd
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_FILE_DIR"] = session_dir
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///finance.db")
+db = SQL(f"sqlite:///{db_path}")
 
 
 @app.after_request
@@ -279,4 +288,4 @@ def sell():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=os.environ.get("FLASK_DEBUG", "1") == "1")
