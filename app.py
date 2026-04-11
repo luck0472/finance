@@ -11,9 +11,33 @@ from helpers import apology, login_required, lookup, usd
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-me")
 
-# Render persistent disk path example: /var/data
-data_dir = os.environ.get("DATA_DIR", os.path.abspath("."))
-os.makedirs(data_dir, exist_ok=True)
+def resolve_data_dir():
+    """Pick the first writable data directory for DB and server-side sessions."""
+    preferred = os.environ.get("DATA_DIR")
+    candidates = [
+        preferred,
+        "/var/data",
+        os.path.join("/tmp", "finance-data"),
+        os.path.abspath("."),
+    ]
+
+    for candidate in candidates:
+        if not candidate:
+            continue
+        try:
+            os.makedirs(candidate, exist_ok=True)
+            probe = os.path.join(candidate, ".write_test")
+            with open(probe, "w", encoding="utf-8") as f:
+                f.write("ok")
+            os.remove(probe)
+            return candidate
+        except OSError:
+            continue
+
+    raise RuntimeError("No writable data directory found")
+
+
+data_dir = resolve_data_dir()
 session_dir = os.path.join(data_dir, "flask_session")
 os.makedirs(session_dir, exist_ok=True)
 db_path = os.path.join(data_dir, "finance.db")
