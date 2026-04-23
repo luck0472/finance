@@ -9,38 +9,6 @@ from helpers import apology, login_required, lookup, usd
 
 # Configure application
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-me")
-
-def resolve_data_dir():
-    """Pick the first writable data directory for DB and server-side sessions."""
-    preferred = os.environ.get("DATA_DIR")
-    candidates = [
-        preferred,
-        "/var/data",
-        os.path.join("/tmp", "finance-data"),
-        os.path.abspath("."),
-    ]
-
-    for candidate in candidates:
-        if not candidate:
-            continue
-        try:
-            os.makedirs(candidate, exist_ok=True)
-            probe = os.path.join(candidate, ".write_test")
-            with open(probe, "w", encoding="utf-8") as f:
-                f.write("ok")
-            os.remove(probe)
-            return candidate
-        except OSError:
-            continue
-
-    raise RuntimeError("No writable data directory found")
-
-
-data_dir = resolve_data_dir()
-session_dir = os.path.join(data_dir, "flask_session")
-os.makedirs(session_dir, exist_ok=True)
-db_path = os.path.join(data_dir, "finance.db")
 
 # Custom filter
 app.jinja_env.filters["usd"] = usd
@@ -48,11 +16,10 @@ app.jinja_env.filters["usd"] = usd
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["SESSION_FILE_DIR"] = session_dir
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL(f"sqlite:///{db_path}")
+db = SQL("sqlite:///finance.db")
 
 
 @app.after_request
@@ -312,4 +279,4 @@ def sell():
 
 
 if __name__ == "__main__":
-    app.run(debug=os.environ.get("FLASK_DEBUG", "1") == "1")
+    app.run(debug=True)
