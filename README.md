@@ -37,11 +37,6 @@ pip install -r requirements.txt
 flask run
 ```
 
-### 3) Run with Gunicorn (production-like)
-```bash
-gunicorn app:app
-```
-
 ## Project Structure (high level)
 
 - `app.py` — Flask routes (portfolio, buy/sell, quote, history, auth) + database queries
